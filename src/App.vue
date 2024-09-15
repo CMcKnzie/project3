@@ -3,15 +3,17 @@
 import {ref} from "vue"
 
     const seconds = ref(0)
-    const _timerId = null
+    const timerReset = ref(null)
+    const secs = ref(0)
 
     const startTimer = () => {
-      seconds.value = timer.value
+      seconds.value = secs.value
       if (seconds.value > 0) {
-        _timerId = setInterval(() => {
+       timerReset = setInterval(() => {
           seconds.value--
-          if (seconds.value <= 0) {
-            clearInterval(_timerId)
+          if (seconds.value == -1) {
+            seconds.value = 0
+            clearInterval(timerReset);
           }
         }, 1000)
       }
@@ -30,12 +32,12 @@ import {ref} from "vue"
         </div>
 
         <div class="formItems">
-        <input type="number" min = "0" max="60" :key="x" v-model = "timer"> 
-        <button @click="startTimer(x)" type="button">Start Timer </button>
+        <input v-model.number="secs" type="number" min = "0" max="60" :key="x" > 
+        <button @click="startTimer()" type="button">Start Timer </button>
         </div>
 
         <div class ="Display">
-            <span>{{ seconds }} left </span>
+            <span>{{seconds}} seconds left </span>
 
         </div>
 		
