@@ -1,4 +1,38 @@
 <script setup>
+
+import {ref} from "vue"
+
+const varTime = ref('')
+const timer = ref('')
+const countDownSecs = ref('')
+
+const startTime =()=>{ 
+  varTime = setInterval(start, 1000);
+  timerDisplay.value = timer.value;
+  countDownSecs = timer.value;
+
+  timerDisplay.value.push({
+  content: timer.value,
+})
+
+} 
+
+const start=() =>{
+  countDownSecs--;
+  timerDisplay.value = countDownSecs;
+  timerDisplay.value
+  if (countDownSecs == -1){
+    stop();
+   timerDisplay.value = "0";
+  }
+}
+
+const stop = ()=>{
+  clearInterval(varTime)
+}
+
+
+
 </script>
 
 <template>
@@ -9,12 +43,12 @@
         </div>
 
         <div class="formItems">
-        <input id="time" type="number" min = "0" max="60"> 
-        <button onclick="startTime()" type="button">Start Timer </button>
+        <input type="number" min = "0" max="60" :key="x" v-model = "timer"> 
+        <button @click="startTime()" type="button">Start Timer </button>
         </div>
 
         <div class ="Display">
-            <div id="timerDisplay">
+            <div ref="timerDisplay">
             </div>
 
         </div>
@@ -25,18 +59,3 @@
 
     </div>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
